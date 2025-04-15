@@ -31,3 +31,19 @@ build/
 
 ### VS Code ###
 .vscode/
+/bida-server/src/test/java/com/bidaapp/GeneCode.java
+.idea
+/bida-server/src/main/resources/not.txt
+*.log
+
+bida-server/src/main/java/com/bidaapp/biz/testController/
+bida-server/src/main/resources/bida-*.properties
+bida-server/src/main/resources/bootstrap-*.properties
+bida-server/src/main/resources/ip.properties
+bida-server/src/main/resources/ip2region.xdb
+ws-server/src/main/resources/bootstrap-dev.properties
+pay-web/src/main/resources/bootstrap-dev.properties
+pay-web/src/main/java/com/bidaapp/pay/testController
+pay-bean/src/main/java/com/bidaapp/pay/service/TestService.java
+pay-server/src/main/java/com/bidaapp/pay/impl/TestServiceImpl.java
+pay-server/src/main/resources/bootstrap-dev.properties
