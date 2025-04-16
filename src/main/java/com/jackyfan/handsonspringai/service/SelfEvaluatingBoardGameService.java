@@ -10,6 +10,7 @@ import org.springframework.ai.evaluation.RelevancyEvaluator;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -30,6 +31,11 @@ public class SelfEvaluatingBoardGameService implements BoardGameService {
         String answerText = chatClient.prompt().user(question.question()).call().content();
         evaluateRelevancy(question, answerText);
         return new Answer(question.gameTitle(),answerText);
+    }
+
+    @Override
+    public Flux<String> askQuestionWithFlux(Question question) {
+        return null;
     }
 
     @Recover
