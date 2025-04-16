@@ -29,12 +29,12 @@ public class SelfEvaluatingBoardGameService implements BoardGameService {
     public Answer askQuestion(Question question) {
         String answerText = chatClient.prompt().user(question.question()).call().content();
         evaluateRelevancy(question, answerText);
-        return new Answer(answerText);
+        return new Answer(question.gameTitle(),answerText);
     }
 
     @Recover
     private Answer recover(AnswerNotRelevantException e) {
-        return new Answer("对不起，我回答不了这个问题，我会继续学习。");
+        return new Answer("Answer Not Relevant","对不起，我回答不了这个问题，我会继续学习。");
     }
 
     private void evaluateRelevancy(Question question, String answerText) {

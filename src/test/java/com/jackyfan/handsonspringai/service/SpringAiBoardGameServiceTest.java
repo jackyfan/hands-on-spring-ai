@@ -35,8 +35,9 @@ public class SpringAiBoardGameServiceTest {
 
     @Test
     public void evaluateFactualAccuracy() {
+        String title = "relevancy Evaluator";
         String userText = "Why is the sky blue?";
-        Question question = new Question(userText);
+        Question question = new Question(title, userText);
         Answer answer = boardGameService.askQuestion(question);
         String referenceAnswer =
                 "The sky is blue because of that was the paint color that was on sale.";
