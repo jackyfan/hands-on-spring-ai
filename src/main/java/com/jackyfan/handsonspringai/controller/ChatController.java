@@ -1,23 +1,23 @@
 package com.jackyfan.handsonspringai.controller;
 
+import com.jackyfan.handsonspringai.domain.Answer;
+import com.jackyfan.handsonspringai.domain.Question;
+import com.jackyfan.handsonspringai.service.BoardGameService;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/ai")
 public class ChatController {
 
-    private final ChatClient chatClient;
+    private final BoardGameService boardGameService;
 
-    public ChatController(ChatClient.Builder chatClientBuilder) {
-        this.chatClient = chatClientBuilder.build();
+    public ChatController(BoardGameService boardGameService) {
+        this.boardGameService = boardGameService;
     }
 
-    @GetMapping("/chat")
-    public String chat(@RequestParam(value = "message") String message) {
-        return chatClient.prompt().user(message).call().content();
+    @PostMapping("/ask")
+    public Answer chat(@RequestBody Question question) {
+        return boardGameService.askQuestion(question);
     }
 }

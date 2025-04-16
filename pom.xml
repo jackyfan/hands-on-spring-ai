@@ -11,7 +11,7 @@
 	<groupId>com.jackyfan</groupId>
 	<artifactId>handsonspringai</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>handsonspringai</name>
+	<name>hands-on-spring-ai</name>
 	<description>Jacky Hands On Spring AI</description>
 	<url/>
 	<licenses>
