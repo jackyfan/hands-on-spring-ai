@@ -34,5 +34,5 @@ build/
 /bida-server/src/main/resources/not.txt
 *.log
 
-src/main/resources/application-private.properties
+*/src/main/resources/application-private.properties
 
