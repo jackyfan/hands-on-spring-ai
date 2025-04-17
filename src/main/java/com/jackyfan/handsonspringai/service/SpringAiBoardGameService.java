@@ -2,6 +2,7 @@ package com.jackyfan.handsonspringai.service;
 
 import com.jackyfan.handsonspringai.domain.Answer;
 import com.jackyfan.handsonspringai.domain.Question;
+import com.jackyfan.handsonspringai.tools.GameTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
@@ -26,8 +27,9 @@ public class SpringAiBoardGameService implements BoardGameService {
     private Resource systemPromptTemplate;
     private final GameRulesService gameRulesService;
 
-    public SpringAiBoardGameService(ChatClient.Builder chatClientBuilder, GameRulesService gameRulesService) {
-        this.chatClient = chatClientBuilder.build();
+
+    public SpringAiBoardGameService(ChatClient.Builder chatClientBuilder, GameRulesService gameRulesService,GameTools gameTools) {
+        this.chatClient = chatClientBuilder.defaultTools(gameTools).build();
         this.gameRulesService = gameRulesService;
     }
 

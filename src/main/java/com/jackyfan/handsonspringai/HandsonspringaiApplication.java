@@ -1,5 +1,7 @@
 package com.jackyfan.handsonspringai;
 
+import com.jackyfan.handsonspringai.tools.GameTools;
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.boot.SpringApplication;
