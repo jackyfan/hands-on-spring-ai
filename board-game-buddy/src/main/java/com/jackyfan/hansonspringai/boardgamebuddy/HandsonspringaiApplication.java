@@ -1,6 +1,6 @@
-package com.jackyfan.handsonspringai;
+package com.jackyfan.hansonspringai.boardgamebuddy;
 
-import com.jackyfan.handsonspringai.tools.GameTools;
+import com.jackyfan.hansonspringai.boardgamebuddy.tools.GameTools;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
