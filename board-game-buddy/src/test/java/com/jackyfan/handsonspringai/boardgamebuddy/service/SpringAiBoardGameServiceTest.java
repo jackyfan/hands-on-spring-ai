@@ -38,7 +38,7 @@ public class SpringAiBoardGameServiceTest {
         String title = "relevancy Evaluator";
         String userText = "Why is the sky blue?";
         Question question = new Question(title, userText);
-        Answer answer = boardGameService.askQuestion(question);
+        Answer answer = boardGameService.askQuestion(question,"q_conversation_id");
         String referenceAnswer =
                 "The sky is blue because of that was the paint color that was on sale.";
 
