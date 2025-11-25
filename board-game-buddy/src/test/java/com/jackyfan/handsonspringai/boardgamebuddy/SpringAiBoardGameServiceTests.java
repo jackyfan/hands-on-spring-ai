@@ -31,7 +31,7 @@ public class SpringAiBoardGameServiceTests {
     @Test
     public void evaluateRelevancy() {
         String userText = "苹果公司是种苹果的吗?";
-        Question question = new Question(userText);
+        Question question = new Question(userText, "苹果");
         Answer answer = boardGameService.askQuestion(question);
 
         EvaluationRequest evaluationRequest = new EvaluationRequest(
@@ -54,7 +54,7 @@ public class SpringAiBoardGameServiceTests {
     @Test
     public void evaluateFactualAccuracy() {
         var userText = "天空为何是蓝色的？";
-        var question = new Question(userText);
+        var question = new Question(userText, "天空");
         var answer = boardGameService.askQuestion(question);
         System.out.println(answer.answer());
         var evaluationRequest =

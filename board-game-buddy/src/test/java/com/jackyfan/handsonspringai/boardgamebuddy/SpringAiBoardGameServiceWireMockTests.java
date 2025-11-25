@@ -25,6 +25,9 @@ public class SpringAiBoardGameServiceWireMockTests {
     @Autowired
     ChatClient.Builder chatClientBuilder;
 
+    @Autowired
+    GameRulesService gameRulesService;
+
     @BeforeEach
     public void setup() throws Exception {
         var cannedResponse = responseResource.getContentAsString(Charset.defaultCharset());
@@ -36,7 +39,7 @@ public class SpringAiBoardGameServiceWireMockTests {
     @Test
     public void testAskQuestionQuestion() {
         var boardGameService =
-                new SpringAiBoardGameService(chatClientBuilder);
+                new SpringAiBoardGameService(chatClientBuilder,gameRulesService);
         var answer =
                 boardGameService.askQuestion(
                         new Question("测试","What is the capital of France?"));

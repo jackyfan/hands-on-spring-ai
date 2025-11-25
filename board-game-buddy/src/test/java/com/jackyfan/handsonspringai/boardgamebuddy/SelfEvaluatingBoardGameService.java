@@ -23,12 +23,12 @@ public class SelfEvaluatingBoardGameService implements BoardGameService {
                 .call()
                 .content();
         evaluateRelevancy(question, answerText);
-        return new Answer(answerText);
+        return new Answer(answerText,question.gameTitle());
     }
 
     @Recover
     public Answer recover(AnswerNotRelevantException e) {
-        return new Answer("I'm sorry, I wasn't able to answer the question.");
+        return new Answer("I'm sorry, I wasn't able to answer the question.","");
     }
 
     private void evaluateRelevancy(Question question, String answerText) {
