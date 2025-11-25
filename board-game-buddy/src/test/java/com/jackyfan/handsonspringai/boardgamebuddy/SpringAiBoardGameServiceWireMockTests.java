@@ -39,7 +39,7 @@ public class SpringAiBoardGameServiceWireMockTests {
                 new SpringAiBoardGameService(chatClientBuilder);
         var answer =
                 boardGameService.askQuestion(
-                        new Question("What is the capital of France?"));
+                        new Question("测试","What is the capital of France?"));
         Assertions.assertThat(answer).isNotNull();
         Assertions.assertThat(answer.answer()).isEqualTo("Paris");
     }

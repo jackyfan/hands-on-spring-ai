@@ -1,5 +1,6 @@
 package com.jackyfan.handsonspringai.boardgamebuddy;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +14,7 @@ public class AskController {
     }
 
     @PostMapping(value = "/ask", produces = "application/json")
-    public Answer ask(@RequestBody Question question) {
+    public Answer ask(@RequestBody @Valid Question question) {
         return boardGameService.askQuestion(question);
     }
 }
