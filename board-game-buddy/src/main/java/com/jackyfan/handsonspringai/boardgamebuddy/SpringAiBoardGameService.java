@@ -22,6 +22,6 @@ public class SpringAiBoardGameService implements BoardGameService {
                     param("gameTitle", question.gameTitle()).
                     param("question", question.question());
         }).call().content();
-        return new Answer(text);
+        return new Answer(text, question.gameTitle());
     }
 }
