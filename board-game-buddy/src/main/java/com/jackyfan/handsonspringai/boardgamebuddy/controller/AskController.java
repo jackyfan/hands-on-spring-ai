@@ -12,18 +12,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/ai")
-public class ChatController {
+public class AskController {
     @Qualifier("springAiBoardGameService")
     private final BoardGameService boardGameService;
     private final VoiceService voiceService;
 
-    public ChatController(BoardGameService boardGameService, VoiceService voiceService) {
+    public AskController(BoardGameService boardGameService, VoiceService voiceService) {
         this.boardGameService = boardGameService;
         this.voiceService = voiceService;
     }
 
-    @PostMapping("/ask")
-    public Answer chat(@RequestHeader(name = "X_AI_CONVERSATION_ID",
+    @PostMapping(value = "/ask",produces = "application/json")
+    public Answer ask(@RequestHeader(name = "X_AI_CONVERSATION_ID",
             defaultValue = "default") String conversationId, @RequestBody @Valid Question question) {
         return boardGameService.askQuestion(question, conversationId);
     }
