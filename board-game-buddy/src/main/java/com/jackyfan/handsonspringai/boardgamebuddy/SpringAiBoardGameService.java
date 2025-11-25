@@ -1,11 +1,15 @@
 package com.jackyfan.handsonspringai.boardgamebuddy;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SpringAiBoardGameService implements BoardGameService {
     private final ChatClient chatClient;
+    @Value("classpath:/promptTemplates/questionPromptTemplate.st")
+    Resource questionPromptTemplate;
 
     public SpringAiBoardGameService(ChatClient.Builder chatClientBuilder) {
         this.chatClient = chatClientBuilder.build();
@@ -13,8 +17,11 @@ public class SpringAiBoardGameService implements BoardGameService {
 
     @Override
     public Answer askQuestion(Question question) {
-        String promptTemplate = String.format("Answer this question about %s: %s", question.gameTitle(), question.question());
-        var text = chatClient.prompt().user(promptTemplate).call().content();
+        var text = chatClient.prompt().user(promptUserSpec -> {
+            promptUserSpec.text(questionPromptTemplate).
+                    param("gameTitle", question.gameTitle()).
+                    param("question", question.question());
+        }).call().content();
         return new Answer(text);
     }
 }
