@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 
 @RestController
 public class AskController {
@@ -17,4 +18,6 @@ public class AskController {
     public Answer ask(@RequestBody @Valid Question question) {
         return boardGameService.askQuestion(question);
     }
+
+
 }
