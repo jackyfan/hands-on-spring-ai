@@ -21,11 +21,14 @@ repositories {
 ext {
 	set('springAiVersion', "1.1.0")
 	set('springCloudVersion', "2025.0.0")
+	set('springFunctionsCatalogVersion', "5.1.0")
 }
+
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.ai:spring-ai-advisors-vector-store'
+	implementation 'org.springframework.cloud.fn:spring-file-supplier'
 	implementation 'org.springframework.ai:spring-ai-starter-model-openai'
 	implementation 'org.springframework.ai:spring-ai-starter-vector-store-qdrant'
 	implementation 'org.springframework.ai:spring-ai-tika-document-reader'
@@ -38,8 +41,10 @@ dependencyManagement {
 	imports {
 		mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+		mavenBom "org.springframework.cloud.fn:spring-functions-catalog-bom:${springFunctionsCatalogVersion}"
 	}
 }
+
 
 tasks.named('test') {
 	useJUnitPlatform()
