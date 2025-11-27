@@ -2,6 +2,7 @@ package com.jackyfan.handsonspringai.boardgamebuddy;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
+import org.springframework.ai.rag.preretrieval.query.transformation.RewriteQueryTransformer;
 import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +24,11 @@ public class AiConfig {
                                 .builder()
                                 .vectorStore(vectorStore)
                                 .build())
+                .queryTransformers(
+                        RewriteQueryTransformer
+                        .builder()
+                        .chatClientBuilder(chatClientBuilder)
+                        .build())
                 .build();
         return chatClientBuilder.defaultAdvisors(advisor).build();
     }

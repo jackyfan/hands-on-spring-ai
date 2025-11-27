@@ -38,7 +38,11 @@ public class SpringAiBoardGameService implements BoardGameService {
         var responseEntity = chatClient.prompt().system(promptSystemSpec -> {
             promptSystemSpec.text(systemPromptTemplate).
                     param("gameTitle", question.gameTitle());
-        }).user(question.question()).advisors(advisorSpec -> advisorSpec.param(FILTER_EXPRESSION, gameTitleMatch)).call().responseEntity(Answer.class);
+        }).user(question.question()).advisors(advisorSpec ->
+                advisorSpec
+                        .param(FILTER_EXPRESSION, gameTitleMatch))
+                .call()
+                .responseEntity(Answer.class);
         //return new Answer(text, question.gameTitle());
         var response = responseEntity.getResponse();
         var metadata = response.getMetadata();
