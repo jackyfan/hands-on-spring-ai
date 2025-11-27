@@ -28,7 +28,7 @@ public class SpringAiBoardGameService implements BoardGameService {
 
     @Override
     public Answer askQuestion(Question question) {
-        var roles = gameRulesService.getRulesFor(question.gameTitle());
+        var roles = gameRulesService.getRulesFor(question.gameTitle(), question.question());
         var  responseEntity =  chatClient.prompt().system(promptSystemSpec -> {
             promptSystemSpec.text(systemPromptTemplate).
                     param("gameTitle", question.gameTitle()).
@@ -43,7 +43,7 @@ public class SpringAiBoardGameService implements BoardGameService {
 
     @Override
     public Flux<String> askQuestionWithStreaming(Question question) {
-        var roles = gameRulesService.getRulesFor(question.gameTitle());
+        var roles = gameRulesService.getRulesFor(question.gameTitle(), question.question());
         return  chatClient.prompt().system(promptSystemSpec -> {
             promptSystemSpec.text(systemPromptTemplate).
                     param("gameTitle", question.gameTitle()).
