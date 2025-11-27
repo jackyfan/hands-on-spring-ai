@@ -13,6 +13,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.function.context.FunctionCatalog;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import reactor.core.publisher.Flux;
@@ -81,7 +82,6 @@ public class VectorStoreLoaderApplication {
                 .map(documents -> {
                     if (!documents.isEmpty()) {
                         var firstDocument = documents.get(0);
-
                         var gameTitle = chatClient.prompt()
                                 .user(userSpec -> userSpec
                                         .text(nameOfTheGameTemplateResource)
@@ -110,6 +110,8 @@ public class VectorStoreLoaderApplication {
 
     @Bean
     Consumer<Flux<List<Document>>> vectorStoreConsumer(VectorStore vectorStore) {
+        LOGGER.info(
+                "Start Documents.");
         return documentFlux -> documentFlux
                 .doOnNext(documents -> {
                     if (!documents.isEmpty()) {
@@ -120,6 +122,8 @@ public class VectorStoreLoaderApplication {
 
                         LOGGER.info(
                                 "{} documents have been written to vector store.", docCount);
+                    }else{
+                        LOGGER.info("No documents to write.");
                     }
                 })
                 .subscribe();
