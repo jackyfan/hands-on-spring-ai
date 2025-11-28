@@ -2,6 +2,7 @@ package com.jackyfan.handsonspringai.boardgamebuddy;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
+import org.springframework.ai.rag.preretrieval.query.expansion.MultiQueryExpander;
 import org.springframework.ai.rag.preretrieval.query.transformation.RewriteQueryTransformer;
 import org.springframework.ai.rag.preretrieval.query.transformation.TranslationQueryTransformer;
 import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever;
@@ -21,17 +22,22 @@ public class AiConfig {
         var advisor = RetrievalAugmentationAdvisor
                 .builder()
                 .documentRetriever(
-                        VectorStoreDocumentRetriever
+                        VectorStoreDocumentRetriever//查询向量数据库
                                 .builder()
                                 .vectorStore(vectorStore)
-                                .build())
+                                .build()).queryExpander(
+                        MultiQueryExpander//通过多种不同方式提出相同问题
+                                .builder()
+                                .chatClientBuilder(chatClientBuilder)
+                                .numberOfQueries(5)
+                                .includeOriginal(true).build())
                 .queryTransformers(
-                        TranslationQueryTransformer
+                        TranslationQueryTransformer//翻译成英语
                                 .builder()
                                 .chatClientBuilder(chatClientBuilder)
                                 .targetLanguage("english")
                                 .build(),
-                        RewriteQueryTransformer
+                        RewriteQueryTransformer//重写查询
                                 .builder()
                                 .chatClientBuilder(chatClientBuilder)
                                 .build())
