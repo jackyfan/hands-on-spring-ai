@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class AgentWorkflowAskController {
-    private final Chain chain;
+    private final Router router;
 
-    public AgentWorkflowAskController(Chain chain) {
-        this.chain = chain;
+    public AgentWorkflowAskController(Router router) {
+        this.router = router;
     }
 
     @PostMapping(value = "/agent/ask", produces = "application/json")
     public Answer ask(@RequestBody Question question) {
-        var response = chain.act(question.question());
+        var response = router.act(question.question());
         return new Answer(response, question.gameTitle());
     }
 }

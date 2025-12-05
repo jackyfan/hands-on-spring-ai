@@ -9,8 +9,15 @@ import java.util.List;
 public class AgentWorkflowConfig {
 
     @Bean
-    public Chain chain(RuleFetcherAction ruleFetcherAction,
+    public Chain mechanics(RuleFetcherAction ruleFetcherAction,
                        MechanicsDeterminerAction mechanicsDeterminerAction) {
         return new Chain(List.of(ruleFetcherAction, mechanicsDeterminerAction));
+    }
+
+    @Bean
+    public Chain playerCount(
+            RuleFetcherAction ruleFetcher,
+            PlayerCountAction playerCountTask) {
+        return new Chain(List.of(ruleFetcher, playerCountTask));
     }
 }
