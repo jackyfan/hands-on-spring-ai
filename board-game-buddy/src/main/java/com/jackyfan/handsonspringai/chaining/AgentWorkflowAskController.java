@@ -2,21 +2,22 @@ package com.jackyfan.handsonspringai.chaining;
 
 import com.jackyfan.handsonspringai.boardgamebuddy.Answer;
 import com.jackyfan.handsonspringai.boardgamebuddy.Question;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class AgentWorkflowAskController {
-    private final Router router;
+    private final Chain chain;
 
-    public AgentWorkflowAskController(Router router) {
-        this.router = router;
+    public AgentWorkflowAskController(@Qualifier("summarizerChain")Chain chain) {
+        this.chain = chain;
     }
 
     @PostMapping(value = "/agent/ask", produces = "application/json")
     public Answer ask(@RequestBody Question question) {
-        var response = router.act(question.question());
+        var response = chain.act(question.question());
         return new Answer(response, question.gameTitle());
     }
 }

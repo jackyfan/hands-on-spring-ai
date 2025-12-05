@@ -6,8 +6,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.logging.Logger;
+
 @Service
 public class RuleFetcherAction implements Action {
+    private static final Logger LOGGER =
+            Logger.getLogger(RuleFetcherAction.class.getName());
     private final ChatClient chatClient;
     private final String rulesFilePath;
 
@@ -22,6 +26,7 @@ public class RuleFetcherAction implements Action {
 
     @Override
     public String act(String input) {
+        LOGGER.info("Fetching rules for:" + input);
         var rulesFile = chatClient.prompt()
                 .user(text ->
                         text.text(input))
@@ -38,7 +43,7 @@ public class RuleFetcherAction implements Action {
     }
 
     private String loadRules(String filename) {
-        return new TikaDocumentReader(rulesFilePath + "/" + filename)
+        return new TikaDocumentReader("classpath:/"+rulesFilePath + "/" + filename)
                 .get()
                 .get(0)
                 .getText();
