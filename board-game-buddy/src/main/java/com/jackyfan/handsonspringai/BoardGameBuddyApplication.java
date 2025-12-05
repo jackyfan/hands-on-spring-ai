@@ -1,4 +1,4 @@
-package com.jackyfan.handsonspringai.boardgamebuddy;
+package com.jackyfan.handsonspringai;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

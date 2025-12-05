@@ -5,6 +5,7 @@ import org.springframework.ai.chat.evaluation.RelevancyEvaluator;
 import org.springframework.ai.evaluation.EvaluationRequest;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
+import reactor.core.publisher.Flux;
 
 public class SelfEvaluatingBoardGameService implements BoardGameService {
     private final ChatClient chatClient;
@@ -24,6 +25,16 @@ public class SelfEvaluatingBoardGameService implements BoardGameService {
                 .content();
         evaluateRelevancy(question, answerText);
         return new Answer(answerText,question.gameTitle());
+    }
+
+    @Override
+    public Flux<String> askQuestionWithStreaming(Question question) {
+        return null;
+    }
+
+    @Override
+    public Answer askQuestionWithMemory(Question question, String conversationId) {
+        return null;
     }
 
     @Recover

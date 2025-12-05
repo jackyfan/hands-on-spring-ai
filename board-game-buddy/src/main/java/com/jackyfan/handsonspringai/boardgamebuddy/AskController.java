@@ -3,8 +3,8 @@ package com.jackyfan.handsonspringai.boardgamebuddy;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
 
 @RestController
 public class AskController {
@@ -17,6 +17,15 @@ public class AskController {
     @PostMapping(value = "/ask", produces = "application/json")
     public Answer ask(@RequestBody @Valid Question question) {
         return boardGameService.askQuestion(question);
+    }
+
+
+    @PostMapping(value = "/askWithMemory", produces = "application/json")
+    public Answer ask(
+            @RequestHeader(name = "X_AI_CONVERSATION_ID",
+                    defaultValue = "default") String conversationId,
+            @RequestBody @Valid Question question) {
+        return boardGameService.askQuestionWithMemory(question, conversationId);
     }
 
 

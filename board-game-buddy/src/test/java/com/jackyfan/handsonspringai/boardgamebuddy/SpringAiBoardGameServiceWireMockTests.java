@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import org.assertj.core.api.Assertions;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,10 +25,13 @@ public class SpringAiBoardGameServiceWireMockTests {
     Resource responseResource;
 
     @Autowired
-    ChatClient.Builder chatClientBuilder;
+    ChatClient chatClient;
 
     @Autowired
     GameRulesService gameRulesService;
+
+    @Autowired
+    VectorStore vectorStore;
 
     @BeforeEach
     public void setup() throws Exception {
@@ -39,7 +44,7 @@ public class SpringAiBoardGameServiceWireMockTests {
     @Test
     public void testAskQuestionQuestion() {
         var boardGameService =
-                new SpringAiBoardGameService(chatClientBuilder,gameRulesService);
+                new SpringAiBoardGameService(chatClient,gameRulesService,vectorStore);
         var answer =
                 boardGameService.askQuestion(
                         new Question("测试","What is the capital of France?"));
