@@ -6,7 +6,8 @@ plugins {
 
 group = 'com.jackyfan.handsonspringai'
 version = '0.0.1-SNAPSHOT'
-description = 'embabel games agent project for Spring AI'
+description = 'Embabel Games Agent project for Spring AI'
+
 
 java {
 	toolchain {
@@ -18,16 +19,34 @@ repositories {
 	mavenCentral()
 	maven { url = 'https://repo.spring.io/snapshot' }
 	maven {
-		name = "embabel-release"
-		url = uri("https://repo.embabel.com/artifactory/libs-release")
+		name = "Spring Milestones"
+		url = uri("https://repo.spring.io/milestone")
 	}
+}
+
+ext {
+	set('springAiVersion', "1.1.0")
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation("com.embabel.agent:embabel-agent-starter:0.1.0")
+	implementation 'org.springframework.ai:spring-ai-starter-model-openai'
+	implementation 'org.springframework.ai:spring-ai-rag'
+	implementation 'org.springframework.ai:spring-ai-advisors-vector-store'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation 'org.wiremock.integrations:wiremock-spring-boot:3.9.0'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.ai:spring-ai-tika-document-reader'
+	implementation 'com.embabel.agent:embabel-agent-starter:0.3.0'
+
+
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
+	}
 }
 
 tasks.named('test') {

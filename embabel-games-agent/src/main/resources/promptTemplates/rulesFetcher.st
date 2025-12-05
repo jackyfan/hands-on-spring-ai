@@ -11,3 +11,4 @@ The game rule files you know about are:
 - The Crew : TheCrew.txt
 If you do not know the filename for the rules you will respond with "I don't
 have the rules for that game".
+The game title is: {gameTitle}

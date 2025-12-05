@@ -4,8 +4,11 @@ import com.embabel.agent.api.annotation.AchievesGoal;
 import com.embabel.agent.api.annotation.Action;
 import com.embabel.agent.api.annotation.Agent;
 import com.embabel.agent.api.common.PromptRunner;
+
+import com.embabel.agent.domain.io.UserInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.ai.reader.tika.TikaDocumentReader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.stringtemplate.v4.ST;
@@ -25,6 +28,9 @@ public class GameInfoAgent {
 
     @Value("classpath:/promptTemplates/playerCount.st")
     Resource playerCountPromptTemplate;
+
+    @Value("classpath:/promptTemplates/rulesFetcher.st")
+    Resource rulesFetcherPromptTemplate;
 
     public GameInfoAgent(
             @Value("${boardgame.rules.path}")
@@ -52,6 +58,44 @@ public class GameInfoAgent {
         return PromptRunner.usingLlm()
                 .createObject(prompt, PlayerCount.class);
     }
+
+    @Action
+    public GameRules getGameRules(GameTitle gameTitle, RulesFile rulesFile) {
+        LOGGER.info("Getting game rules for: " + gameTitle.gameTitle()
+                + " from file: " + rulesFile.filename());
+        if (rulesFile.successful()) {
+            String rulesContent = new TikaDocumentReader("classpath:/"+rulesFilePath + "/" + rulesFile.filename())
+                            .get()
+                            .get(0)
+                            .getText();
+            if (rulesContent != null) {
+                return new GameRules(gameTitle.gameTitle(), rulesContent);
+            }
+        }
+        throw new ActionFailedException(
+                "Unable to fetch rules for the specified game.");
+    }
+
+    @Action
+    public RulesFile getGameRulesFilename(GameTitle gameTitle) {
+        LOGGER.info("Getting game rules filename for: " + gameTitle.gameTitle());
+        var prompt = promptResourceToString(rulesFetcherPromptTemplate,
+                Map.of("gameTitle", gameTitle.gameTitle()));
+        return PromptRunner.usingLlm()
+                .createObject(prompt, RulesFile.class);
+    }
+
+    @Value("classpath:/promptTemplates/determineTitle.st")
+    Resource determineTitlePromptTemplate;
+    @Action
+    public GameTitle extractGameTitle(UserInput userInput) {
+        LOGGER.info("Extracting game title from user input");
+        var prompt = promptResourceToString(determineTitlePromptTemplate,
+                Map.of("userInput", userInput.getContent()));
+        return PromptRunner.usingLlm()
+                .createObject(prompt, GameTitle.class);
+    }
+
     private String promptResourceToString(Resource resource, Map<String, String> params) {
         try {
             var promptString = resource.getContentAsString(Charset.defaultCharset());
