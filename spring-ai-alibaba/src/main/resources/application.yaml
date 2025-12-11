@@ -1,3 +1,17 @@
 spring:
   application:
     name: Spring AI Alibaba
+  ai:
+    vectorstore:
+      milvus:
+        client:
+          host: ${MILVUS_HOST:localhost} # default: localhost
+          port: ${MILVUS_PORT:19530} # default: 19530
+          username: ${MILVUS_USERNAME:root} # default: root
+          password: ${MILVUS_PASSWORD:milvus} # default: milvus
+        databaseName: ${MILVUS_DATABASE_NAME:default} # default: default
+        collectionName: ${MILVUS_COLLECTION_NAME:spring_ai_vector_store} # default: vector_store
+        embeddingDimension: 1024 # default: 1536
+        indexType: IVF_FLAT # default: IVF_FLAT
+        metricType: COSINE # default: COSINE
+        initialize-schema: false
